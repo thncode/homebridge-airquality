@@ -7,18 +7,18 @@
     "airthings",
     "wave"
   ],
-  "homepage": "https://github.com/thncode/homebridge-airthings",
+  "homepage": "https://github.com/thncode/homebridge-airquality",
   "author": "Thomas Nemec",
   "repository": {
     "type": "git",
-    "url": "git://github.com/thncode/homebridge-airthings"
+    "url": "git://github.com/thncode/homebridge-airquality"
   },
   "bugs": {
-    "url": "http://github.com/thncode/homebridge-airthings/issues"
+    "url": "http://github.com/thncode/homebridge-airquality/issues"
   },
   "engines": {
     "node": ">=0.18.0",
-    "homebridge": ">=1.6.1"
+    "homebridge": ">=1.6.0"
   },
   "dependencies": {
     "fakegato-history": "^0.6.4"
