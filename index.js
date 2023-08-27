@@ -16,3 +16,18 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory('homebridge-airquality', 'AirQuality', AirQuality);
 }
 
+AirQuality.prototype.setUpServices = function () {
+
+   	this.infoService = new Service.AccessoryInformation();
+	this.infoService
+		.setCharacteristic(Characteristic.Manufacturer, "Thomas Nemec")
+		.setCharacteristic(Characteristic.SerialNumber, hostname + "-" + this.name)
+		.setCharacteristic(Characteristic.FirmwareRevision, packageFile.version);
+	
+	this.fakeGatoHistoryService = new FakeGatoHistoryService("weather", this, { storage: 'fs' });
+}
+
+AirQuality.prototype.getServices = function () {
+
+	return [this.infoService, this.fakeGatoHistoryService, this.raspberrypiService];
+};
