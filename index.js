@@ -37,7 +37,21 @@ AirQuality.prototype.setUpServices = function () {
 		temp = temperatureVal;
 		return temperatureVal;
 	}
-}
+	
+	currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
+	if(that.updateInterval) {
+		setInterval(() => {
+			currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
+			
+			that.log("Temperatur: " + temp);
+			this.fakeGatoHistoryService.addEntry({time: new Date().getTime() / 1000, temp: temp});
+			
+		}, that.updateInterval);
+	}
+	
+	currentTemperatureCharacteristic.on('get', (callback) => {
+		callback(null, getCurrentTemperature());
+	});}
 
 AirQuality.prototype.getServices = function () {
 
