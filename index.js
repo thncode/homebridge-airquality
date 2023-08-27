@@ -18,6 +18,9 @@ module.exports = function(homebridge) {
 
 AirQuality.prototype.setUpServices = function () {
 
+	var that = this;
+	var temp;
+	
    	this.infoService = new Service.AccessoryInformation();
 	this.infoService
 		.setCharacteristic(Characteristic.Manufacturer, "Thomas Nemec")
@@ -25,9 +28,18 @@ AirQuality.prototype.setUpServices = function () {
 		.setCharacteristic(Characteristic.FirmwareRevision, packageFile.version);
 	
 	this.fakeGatoHistoryService = new FakeGatoHistoryService("weather", this, { storage: 'fs' });
+
+	this.airqualityService = new Service.TemperatureSensor(that.name);
+	var currentTemperatureCharacteristic = this.airqualityService.getCharacteristic(Characteristic.CurrentTemperature);
+	
+	function getCurrentTemperature() {
+		var temperatureVal = 29.5;
+		temp = temperatureVal;
+		return temperatureVal;
+	}
 }
 
 AirQuality.prototype.getServices = function () {
 
-	return [this.infoService, this.fakeGatoHistoryService, this.raspberrypiService];
+	return [this.infoService, this.fakeGatoHistoryService, this.airqualityService];
 };
