@@ -4,7 +4,8 @@ var os = require("os");
 var hostname = os.hostname();
 
 module.exports = function(homebridge) {
-    if(!isConfig(homebridge.user.configPath(), "accessories", "AirQuality")) {
+	
+    if (!isConfig(homebridge.user.configPath(), "accessories", "AirQuality")) {
         return;
     }
     
@@ -16,6 +17,39 @@ module.exports = function(homebridge) {
 
     homebridge.registerAccessory('homebridge-airthings-airquality', 'AirQuality', AirQuality);
 }
+
+function isConfig(configFile, type, name) {
+    var config = JSON.parse(fs.readFileSync(configFile));
+    if("accessories" === type) {
+        var accessories = config.accessories;
+        for(var i in accessories) {
+            if(accessories[i]['accessory'] === name) {
+                return true;
+            }
+        }
+    } else if ("platforms" === type) {
+        var platforms = config.platforms;
+        for (var i in platforms) {
+            if(platforms[i]['platform'] === name) {
+                return true;
+            }
+        }
+    } else {
+    }
+    
+    return false;
+};
+
+function AirQuality(log, config) {
+	
+    if (null == config) {
+        return;
+    }
+
+    this.log = log;
+    this.name = config["name"];
+    this.setUpServices();
+};
 
 AirQuality.prototype.setUpServices = function () {
 
