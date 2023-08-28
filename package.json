@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-airquality",
+  "name": "@tnemec/homebridge-airquality",
   "version": "0.0.2",
   "description": "a homebridge(https://github.com/nfarina/homebridge) plugin that reads airthings wave information.",
   "keywords": [
