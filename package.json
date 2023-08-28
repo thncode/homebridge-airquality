@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-airquality",
+  "name": "homebridge-airthings-airquality",
   "version": "0.0.1",
   "description": "a homebridge(https://github.com/nfarina/homebridge) plugin that reads airthings wave information.",
   "keywords": [
@@ -7,14 +7,14 @@
     "airthings",
     "wave"
   ],
-  "homepage": "https://github.com/thncode/homebridge-airquality",
+  "homepage": "https://github.com/thncode/homebridge-airthings-airquality",
   "author": "Thomas Nemec",
   "repository": {
     "type": "git",
-    "url": "git://github.com/thncode/homebridge-airquality"
+    "url": "git://github.com/thncode/homebridge-airthings-airquality"
   },
   "bugs": {
-    "url": "http://github.com/thncode/homebridge-airquality/issues"
+    "url": "http://github.com/thncode/homebridge-airthings-airquality/issues"
   },
   "engines": {
     "node": ">=0.18.0",
