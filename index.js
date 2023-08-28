@@ -49,6 +49,15 @@ function AirQuality(log, config) {
 
     this.log = log;
     this.name = config["name"];
+
+    if (config["waveminiserial"]) {
+        this.waveminiserial = config["waveminiserial"];
+    } else {
+        this.waveminiserial = null;
+    }
+
+    that.log("Wave Mini Serial: " + this.waveminiserial);
+	
     this.setUpServices();
 };
 
@@ -75,7 +84,7 @@ AirQuality.prototype.setUpServices = function () {
 	}
 	
 	currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
-	if(that.updateInterval) {
+	if (that.updateInterval) {
 		setInterval(() => {
 			currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
 			
