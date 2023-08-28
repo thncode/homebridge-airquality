@@ -1,1 +1,1 @@
-# homebridge-airquality
+# homebridge-airthings-airquality
