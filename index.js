@@ -20,6 +20,7 @@ module.exports = function(homebridge) {
 }
 
 function isConfig(configFile, type, name) {
+	
     var config = JSON.parse(fs.readFileSync(configFile));
     if("accessories" === type) {
         var accessories = config.accessories;
@@ -42,14 +43,14 @@ function isConfig(configFile, type, name) {
 };
 
 function AirQuality(log, config) {
-	
-    if (null == config) {
-	that.log("Keine Daten");
-        return;
-    }
 
     this.log = log;
     this.name = config["name"];
+
+    if (null == config) {
+	this.log("Keine Daten");
+        return;
+    }
 
     if (config["waveminiserial"]) {
         this.waveminiserial = config["waveminiserial"];
@@ -57,7 +58,7 @@ function AirQuality(log, config) {
         this.waveminiserial = null;
     }
 
-    that.log("Wave Mini Serial: " + this.waveminiserial);
+    this.log("Wave Mini Serial: " + this.waveminiserial);
 	
     this.setUpServices();
 };
