@@ -1,6 +1,7 @@
 var Accessory, Service, Characteristic, UUIDGen, FakeGatoHistoryService;
 const packageFile = require("./package.json");
 var os = require("os");
+const fs = require('fs');
 var hostname = os.hostname();
 
 module.exports = function(homebridge) {
