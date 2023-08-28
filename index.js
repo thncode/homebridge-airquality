@@ -44,6 +44,7 @@ function isConfig(configFile, type, name) {
 function AirQuality(log, config) {
 	
     if (null == config) {
+	that.log("Keine Daten");
         return;
     }
 
