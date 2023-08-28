@@ -13,7 +13,7 @@ module.exports = function(homebridge) {
     UUIDGen = homebridge.hap.uuid;
     FakeGatoHistoryService = require("fakegato-history")(homebridge);
 
-    homebridge.registerAccessory('homebridge-airquality', 'AirQuality', AirQuality);
+    homebridge.registerAccessory('homebridge-airthings-airquality', 'AirQuality', AirQuality);
 }
 
 AirQuality.prototype.setUpServices = function () {
