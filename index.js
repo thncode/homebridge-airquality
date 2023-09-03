@@ -98,6 +98,18 @@ AirQuality.prototype.readData = function () {
 	})
 }
 
+AirQuality.prototype.getCurrentTemperature = function (callback) {
+    return callback(null, this.temperature)
+}
+
+AirQuality.prototype.getCurrentRelativeHumidity = function (callback) {
+    return callback(null, this.humidity)
+}
+
+AirQuality.prototype.getVOCDensity = function (callback) {
+    return callback(null, this.voc)
+}
+
 AirQuality.prototype.setUpServices = function () {
 	
    	this.infoService = new Service.AccessoryInformation();
@@ -109,28 +121,12 @@ AirQuality.prototype.setUpServices = function () {
 	this.fakeGatoHistoryService = new FakeGatoHistoryService("room2", this, { storage: 'fs' });
 
 	this.airqualityService = new Service.TemperatureSensor(this.name);
-	var currentTemperatureCharacteristic = this.airqualityService.getCharacteristic(Characteristic.CurrentTemperature);
-	var currentRelativeHumidityCharacteristic = this.airqualityService.getCharacteristic(Characteristic.CurrentRelativeHumidity);
-	
-	function getCurrentTemperature() {
-		return this.temperature;
-	    }
-	
-	function getCurrentRelativeHumidity() {
-		return this.humidity;
-	    }
-	
-	currentTemperatureCharacteristic.updateValue(getCurrentTemperature());
-	currentRelativeHumidityCharacteristic.updateValue(getCurrentRelativeHumidity());
-	
-	currentTemperatureCharacteristic.on('get', (callback) => {
-		callback(null, getCurrentTemperature());
-	});
-
-	currentRelativeHumidityCharacteristic.on('get', (callback) => {
-		callback(null, getCurrentRelativeHumidity());
-	});
-	
+	this.airqualityService.getCharacteristic(Characteristic.CurrentTemperature)
+	    .on('get', this.getCurrentTemperature.bind(this));
+	this.airqualityService.getCharacteristic(Characteristic.CurrentRelativeHumidity)
+	    .on('get', this.getCurrentRelativeHumidity.bind(this));	
+	this.airqualityService.getCharacteristic(Characteristic.VOCDensity)
+	    .on('get', this.getVOCDensity.bind(this));	
 }
 
 AirQuality.prototype.getServices = function () {
