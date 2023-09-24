@@ -4,7 +4,7 @@ var os = require("os");
 const fs = require('fs');
 var hostname = os.hostname();
 
-const readFile = "/var/lib/homebridge/node_modules/homebridge-airthings-airquality/2920158516.txt";
+const path = "/home/thomas/homeautomat/wave-reader/";
 
 var temperature = 0;
 var humidity = 0;
@@ -51,26 +51,31 @@ function AirQuality(log, config) {
     this.log = log;
     this.name = config["name"];
 
-    if (config["waveminiserial"]) {
-        this.waveminiserial = config["waveminiserial"];
+    if (config["serial"]) {
+        this.wave_serial = config["serial"];
     } else {
-        this.waveminiserial = null;
+        this.wave_serial = null;
     }
 
-    this.log("Wave Mini Serial: " + this.waveminiserial);
-	
+    this.log("Wave Serial: " + this.wave_serial);
+
+    this.filename = path + this.wave_serial + ".txt";
+    
+    if (this.logging)
+	this.log("Filename: " + this.filename);
+
     this.setUpServices();
     
     this.readData();
     
-    fs.watch(readFile, (event, filename) => {
+    fs.watch(this.filename, (event, filename) => {
    		if (event === 'change') this.readData();
     });
 };
 
 AirQuality.prototype.readData = function () {
 
-	fs.stat(readFile, (err, stats) => {
+	fs.stat(this.filename, (err, stats) => {
 	    
 		if (err) {
 		    this.log("Kann Daten nicht lesen");
@@ -78,13 +83,13 @@ AirQuality.prototype.readData = function () {
 		    
 	  	if (stats.mtime.getHours() != this.hour || stats.mtime.getMinutes() != this.minute || stats.mtime.getSeconds() != this.second) {
 		    
-		    var data = fs.readFileSync(readFile, "utf-8");
+		    var data = fs.readFileSync(this.filename, "utf-8");
 
 		    this.temperature = parseFloat(data.substring(0, 5));
-		    if (!isNaN(temperature)) {
+		    if (!isNaN(this.temperature)) {
 
 			this.humidity = parseFloat(data.substring(6, 11));
-			this.voc = parseFloat(data.substring(12));
+			this.voc = parseFloat(data.substring(12, 17));
 
 			this.fakeGatoHistoryService.addEntry({time: Math.round(new Date().getTime() / 1000), temp: this.temperature, humidity: this.humidity, voc: this.voc});
 						
@@ -92,7 +97,8 @@ AirQuality.prototype.readData = function () {
 			this.minute = stats.mtime.getMinutes();
 			this.second = stats.mtime.getSeconds();
 
-			this.log("Temperatur:", this.temperature, " Humidity:", this.humidity, " VOC:", this.voc);
+			if (this.logging)
+			    this.log("Wave ", this.wave_serial, "Temperatur:", this.temperature, " Humidity:", this.humidity, " VOC:", this.voc);
 		    }
 		}
 	})
