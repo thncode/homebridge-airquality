@@ -1,6 +1,6 @@
 {
   "name": "homebridge-airthings-airquality",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "a homebridge(https://github.com/nfarina/homebridge) plugin that reads airthings wave information.",
   "keywords": [
     "homebridge-plugin",
